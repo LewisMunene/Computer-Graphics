@@ -2,12 +2,14 @@
 import openpyxl
 import csv
 import pandas as pd
+import constraints
+import functions
 
 # open given workbook
 # and store in excel object
 excel = openpyxl.load_workbook("assets/test_files.xlsx")
 
-# select the active sheet_3B
+# Create Sheet variables
 sheet_3B = excel["3B"]
 sheet_3C = excel["3C"]
 
@@ -15,6 +17,8 @@ sheet_3C = excel["3C"]
 col = csv.writer(open("assets/test_files.csv",
                       'w',
                       newline=""))
+
+# index used for listing all row elements
 index = 1
 # writing the data in csv file
 for r in sheet_3B.rows:
@@ -23,6 +27,7 @@ for r in sheet_3B.rows:
     if str(r[0].value) == 'None':
         continue
     if str(r[0].value) != 'No.':
+        # set the new index
         r[0].value = index
         index += 1
     col.writerow([cell.value for cell in r])
@@ -32,6 +37,7 @@ for r in sheet_3C.rows:
     # operation is perform
     if str(r[0].value) == 'None' or str(r[0].value) == 'No.':
         continue
+    # set the new index
     r[0].value = index
     index += 1
     col.writerow([cell.value for cell in r])
