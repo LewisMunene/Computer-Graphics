@@ -4,6 +4,7 @@ import csv
 import pandas as pd
 import constraints
 import functions
+import re
 
 # open given workbook
 # and store in excel object
@@ -27,8 +28,13 @@ for r in sheet_3B.rows:
     if str(r[0].value) == 'None':
         continue
     if str(r[0].value) != 'No.':
+        # use regex to split the names of students in an array, while also removing symbols from the strings
+        name_array = re.findall(r'\w+', r[2].value)
+        # we now create an email address using the first and last elements in the array.
+        email = name_array[0][0] + name_array[-1] + "@gmail.com"
         # set the new index
         r[0].value = index
+        r[4].value = email.casefold()
         index += 1
     col.writerow([cell.value for cell in r])
 
@@ -37,8 +43,15 @@ for r in sheet_3C.rows:
     # operation is perform
     if str(r[0].value) == 'None' or str(r[0].value) == 'No.':
         continue
+
+    # use regex to split the names of students in an array, while also removing symbols from the strings
+    name_array = re.findall(r'\w+', r[2].value)
+    # we now create an email address using the first and last elements in the array.
+    email = name_array[0][0] + name_array[-1] + "@gmail.com"
+
     # set the new index
     r[0].value = index
+    r[4].value = email.casefold()
     index += 1
     col.writerow([cell.value for cell in r])
 # ---------------------------------------------------------------------------
